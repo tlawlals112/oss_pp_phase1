@@ -67,7 +67,7 @@ while running:
     character_x_pos = max(0, min(character_x_pos, screen_width - character_width))
 
     # 톰(tom) 생성 및 이동 처리
-    if random.randint(0, 150) == 0:  # 150분의 1 확률로 톰 생성
+    if random.randint(0, 130) == 0:  # 150분의 1 확률로 톰 생성
         tom_x_pos = random.randint(0, screen_width - tom_images[0].get_width())
         tom_y_pos = 0
         current_tom_image = random.choice(tom_images)
