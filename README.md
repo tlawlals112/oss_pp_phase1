@@ -3,14 +3,14 @@
 
 # 구현 기능
 
-* pygame, box2d 기반 게임 board(환경) 구현
-* 키보드 입력으로 과일 조준 기능
-* 동일 과일이 충돌 시 합쳐지는 기능
+* 좌우 이동: 왼쪽/오른쪽 화살표 키를 사용하여 캐릭터를 좌우로 움직이는 기능
+* 랜덤한 위치에서 톰이 계속해서 떨어짐
+* 톰과 충돌하면 캐릭터가 화난 제리로 변하고 잠시 후 게임이 종료됨
+* 남은 시간을 표시하는 기능
+
 
 # Reference
-[1] https://github.com/pybox2d/pybox2d "pybox2d" 
-
-[2] https://github.com/pygame/pygame "pygame"
+[1] https://github.com/pygame/pygame "pygame" 
 
 # 지원 Operating Systems 및 실행 방법
 
