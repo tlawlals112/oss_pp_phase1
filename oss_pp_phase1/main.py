@@ -9,7 +9,7 @@ screen_width = 480
 screen_height = 640
 screen = pygame.display.set_mode((screen_width, screen_height))
 
-pygame.display.set_caption("톰을 피해라!!!")
+pygame.display.set_caption("톰을 피해라!!!") 
 clock = pygame.time.Clock()
 FPS = 60
 
@@ -33,6 +33,11 @@ character_y_pos = screen_height - character_height
 # 캐릭터 이동 설정
 to_x = 0
 speed = 5  # 전체 코드에 맞춰 speed 값 설정
+
+# 톰 설정
+tom_x_pos = random.randint(0, screen_width - tom_images[0].get_width())
+tom_y_pos = 0
+current_tom_image = random.choice(tom_images)  # 랜덤 톰 이미지 선택
 
 # 게임 루프
 running = True
@@ -58,9 +63,17 @@ while running:
     # 캐릭터 화면 밖으로 나가지 않도록 설정
     character_x_pos = max(0, min(character_x_pos, screen_width - character_width))
 
+    # 충돌 처리 (Rect 사용)
+    character_rect = character.get_rect(topleft=(character_x_pos, character_y_pos))
+    tom_rect = current_tom_image.get_rect(topleft=(tom_x_pos, tom_y_pos))
+    if character_rect.colliderect(tom_rect):
+        print("충돌했어요")
+        running = False
+
     # 화면에 그리기
     screen.blit(background, (0, 0))  # 배경 그리기
     screen.blit(character, (character_x_pos, character_y_pos))  # 캐릭터 그리기
+    screen.blit(current_tom_image, (tom_x_pos, tom_y_pos))  # 똥(tom) 그리기
 
     pygame.display.flip()
 
