@@ -9,7 +9,7 @@ screen_width = 480
 screen_height = 640
 screen = pygame.display.set_mode((screen_width, screen_height))
 
-pygame.display.set_caption("톰을 피해라!!!") 
+pygame.display.set_caption("톰을 피해라!!!")
 clock = pygame.time.Clock()
 FPS = 60
 
@@ -34,10 +34,18 @@ character_y_pos = screen_height - character_height
 to_x = 0
 speed = 5  # 전체 코드에 맞춰 speed 값 설정
 
-# 톰 설정
+# 똥(tom) 설정
 tom_x_pos = random.randint(0, screen_width - tom_images[0].get_width())
 tom_y_pos = 0
+tom_speed = 5  # 전체 코드에 맞춰 tom_speed 값 설정
 current_tom_image = random.choice(tom_images)  # 랜덤 톰 이미지 선택
+
+# 폰트 설정
+game_font = pygame.font.Font(None, 40)
+
+# 게임 시간 설정
+total_time = 50  # 전체 코드에 맞춰 total_time 값 설정
+start_ticks = pygame.time.get_ticks()
 
 # 게임 루프
 running = True
@@ -63,11 +71,21 @@ while running:
     # 캐릭터 화면 밖으로 나가지 않도록 설정
     character_x_pos = max(0, min(character_x_pos, screen_width - character_width))
 
+    # 똥(tom) 이동 처리
+    tom_y_pos += tom_speed
+    if tom_y_pos > screen_height:
+        tom_y_pos = 0
+        tom_x_pos = random.randint(0, screen_width - current_tom_image.get_width())
+        current_tom_image = random.choice(tom_images)
+
     # 충돌 처리 (Rect 사용)
     character_rect = character.get_rect(topleft=(character_x_pos, character_y_pos))
     tom_rect = current_tom_image.get_rect(topleft=(tom_x_pos, tom_y_pos))
     if character_rect.colliderect(tom_rect):
-        print("충돌했어요")
+        character = angry_jerry
+        character_y_pos -= 90  # 전체 코드에 맞춰 y 좌표 조정
+        pygame.display.update()
+        pygame.time.delay(2000)
         running = False
 
     # 화면에 그리기
@@ -75,7 +93,19 @@ while running:
     screen.blit(character, (character_x_pos, character_y_pos))  # 캐릭터 그리기
     screen.blit(current_tom_image, (tom_x_pos, tom_y_pos))  # 똥(tom) 그리기
 
+    # 타이머 표시
+    elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
+    timer = game_font.render(f"Time: {int(total_time - elapsed_time)}", True, (255, 255, 255))
+    screen.blit(timer, (10, 10))
+
+    # 만약 시간이 0 이하이면 게임 종료
+    if total_time - elapsed_time <= 0:
+        running = False
+
     pygame.display.flip()
+
+# 잠시 대기
+pygame.time.delay(2000)  # 2초 대기
 
 # Pygame 종료
 pygame.quit()
