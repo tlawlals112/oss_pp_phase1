@@ -32,26 +32,22 @@ character_y_pos = screen_height - character_height
 
 # 캐릭터 이동 설정
 to_x = 0
-speed = 5  # 전체 코드에 맞춰 speed 값 설정
+speed = 5
 
-# 똥(tom) 설정
-tom_x_pos = random.randint(0, screen_width - tom_images[0].get_width())
-tom_y_pos = 0
-tom_speed = 5  # 전체 코드에 맞춰 tom_speed 값 설정
-current_tom_image = random.choice(tom_images)  # 랜덤 톰 이미지 선택
+# 톰(tom) 설정
+tom_list = []  # 톰 정보를 담을 리스트
+tom_speed = 5
 
 # 폰트 설정
 game_font = pygame.font.Font(None, 40)
 
 # 게임 시간 설정
-total_time = 50  # 전체 코드에 맞춰 total_time 값 설정
+total_time = 50
 start_ticks = pygame.time.get_ticks()
 
 # 게임 루프
 running = True
 while running:
-    dt = clock.tick(FPS)  # 프레임 시간 계산
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -60,52 +56,55 @@ while running:
                 to_x -= speed
             elif event.key == pygame.K_RIGHT:
                 to_x += speed
-
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 to_x = 0
 
-    # 캐릭터 이동 처리 (프레임 시간에 따라 이동량 조절)
-    character_x_pos += to_x * dt
+    # 캐릭터 이동 처리
+    character_x_pos += to_x
 
     # 캐릭터 화면 밖으로 나가지 않도록 설정
     character_x_pos = max(0, min(character_x_pos, screen_width - character_width))
 
-    # 똥(tom) 이동 처리
-    tom_y_pos += tom_speed
-    if tom_y_pos > screen_height:
+    # 톰(tom) 생성 및 이동 처리
+    if random.randint(0, 150) == 0:  # 150분의 1 확률로 톰 생성
+        tom_x_pos = random.randint(0, screen_width - tom_images[0].get_width())
         tom_y_pos = 0
-        tom_x_pos = random.randint(0, screen_width - current_tom_image.get_width())
         current_tom_image = random.choice(tom_images)
+        tom_list.append([tom_x_pos, tom_y_pos, current_tom_image])
 
-    # 충돌 처리 (Rect 사용)
-    character_rect = character.get_rect(topleft=(character_x_pos, character_y_pos))
-    tom_rect = current_tom_image.get_rect(topleft=(tom_x_pos, tom_y_pos))
-    if character_rect.colliderect(tom_rect):
-        character = angry_jerry
-        character_y_pos -= 90  # 전체 코드에 맞춰 y 좌표 조정
-        pygame.display.update()
-        pygame.time.delay(2000)
-        running = False
+    for tom in tom_list:
+        tom[1] += tom_speed  # 톰 떨어뜨리기
+        if tom[1] > screen_height:  # 톰이 화면 밖으로 나가면 제거
+            tom_list.remove(tom)
+
+        # 충돌 처리 (Rect 사용)
+        character_rect = character.get_rect(topleft=(character_x_pos, character_y_pos))
+        tom_rect = tom[2].get_rect(topleft=(tom[0], tom[1]))
+        if character_rect.colliderect(tom_rect):
+            character = angry_jerry
+            character_y_pos -= 90
+            pygame.display.update()
+            pygame.time.delay(2000)
+            running = False
 
     # 화면에 그리기
-    screen.blit(background, (0, 0))  # 배경 그리기
-    screen.blit(character, (character_x_pos, character_y_pos))  # 캐릭터 그리기
-    screen.blit(current_tom_image, (tom_x_pos, tom_y_pos))  # 똥(tom) 그리기
+    screen.blit(background, (0, 0))
+    screen.blit(character, (character_x_pos, character_y_pos))
+    for tom in tom_list:
+        screen.blit(tom[2], (tom[0], tom[1]))  # 각 톰 이미지 그리기
 
     # 타이머 표시
-    elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
+    elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 
     timer = game_font.render(f"Time: {int(total_time - elapsed_time)}", True, (255, 255, 255))
     screen.blit(timer, (10, 10))
-
-    # 만약 시간이 0 이하이면 게임 종료
+    
     if total_time - elapsed_time <= 0:
-        running = False
+        running = False 
 
+    # 화면 업데이트
     pygame.display.flip()
-
-# 잠시 대기
-pygame.time.delay(2000)  # 2초 대기
+    clock.tick(FPS)
 
 # Pygame 종료
 pygame.quit()
