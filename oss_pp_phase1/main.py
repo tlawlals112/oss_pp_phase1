@@ -9,7 +9,7 @@ screen_width = 480
 screen_height = 640
 screen = pygame.display.set_mode((screen_width, screen_height))
 
-pygame.display.set_caption("톰을 피해라!!")
+pygame.display.set_caption("똥피하기")
 clock = pygame.time.Clock()
 FPS = 60
 
@@ -30,19 +30,38 @@ character_height = character_size[1]
 character_x_pos = (screen_width - character_width) / 2
 character_y_pos = screen_height - character_height
 
+# 캐릭터 이동 설정
+to_x = 0
+speed = 5  # 전체 코드에 맞춰 speed 값 설정
+
 # 게임 루프
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                to_x -= speed
+            elif event.key == pygame.K_RIGHT:
+                to_x += speed
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                to_x = 0
+
+    # 캐릭터 이동 처리
+    character_x_pos += to_x
+
+    # 캐릭터 화면 밖으로 나가지 않도록 설정
+    character_x_pos = max(0, min(character_x_pos, screen_width - character_width))
 
     # 화면에 그리기
     screen.blit(background, (0, 0))  # 배경 그리기
     screen.blit(character, (character_x_pos, character_y_pos))  # 캐릭터 그리기
 
-    pygame.display.flip()  # 화면 업데이트 (전체 코드에서는 flip() 사용)
-    clock.tick(FPS)  # FPS 제한
+    pygame.display.flip()
+    clock.tick(FPS)
 
 # Pygame 종료
 pygame.quit()
