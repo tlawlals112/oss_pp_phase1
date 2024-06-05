@@ -74,7 +74,7 @@ pip3 install box2d box2d-kengz
 
 # 실행 예시
 
-![example]([https://github.com/RmKuma/oss_personal_project_phase1/assets/20412048/98ecfe0c-34c5-4592-86e9-defded705a36](https://github.com/catcat0902/oss_pp_phase1/issues/1#issue-2336473758))
+![example]([https://github.com/catcat0902/oss_pp_phase1/issues/1#issue-2336473758])
 
 # 코드 설명
 ## main.py
