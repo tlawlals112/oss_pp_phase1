@@ -14,13 +14,13 @@ clock = pygame.time.Clock()
 FPS = 60
 
 # 이미지 로드 및 최적화
-background = pygame.image.load(r"C:\Users\김서현\Desktop\pygame_basic\background.png").convert()
-character = pygame.image.load(r"C:\Users\김서현\Desktop\pygame_basic\character.png").convert_alpha()
-angry_jerry = pygame.image.load(r"C:\Users\김서현\Desktop\pygame_basic\angry_jerry.png").convert_alpha()
+background = pygame.image.load(r"C:\Users\김서현\Desktop\oss_pp_phase1\images\background.png").convert()
+character = pygame.image.load(r"C:\Users\김서현\Desktop\oss_pp_phase1\images\character.png").convert_alpha()
+angry_jerry = pygame.image.load(r"C:\Users\김서현\Desktop\oss_pp_phase1\images\angry_jerry.png").convert_alpha()
 tom_images = [
-    pygame.image.load(r"C:\Users\김서현\Desktop\pygame_basic\tom1.png").convert_alpha(),
-    pygame.image.load(r"C:\Users\김서현\Desktop\pygame_basic\tom2.png").convert_alpha(),
-    pygame.image.load(r"C:\Users\김서현\Desktop\pygame_basic\tom3.png").convert_alpha()
+    pygame.image.load(r"C:\Users\김서현\Desktop\oss_pp_phase1\images\tom1.png").convert_alpha(),
+    pygame.image.load(r"C:\Users\김서현\Desktop\oss_pp_phase1\images\tom2.png").convert_alpha(),
+    pygame.image.load(r"C:\Users\김서현\Desktop\oss_pp_phase1\images\tom3.png").convert_alpha()
 ]
 
 # 캐릭터 크기 및 위치 설정
