@@ -1,5 +1,6 @@
-# rank.py
-
+###########################
+###########phase2##########
+##########################
 ranking_file = "rankings.txt"
 
 def add_ranking(username, game_time):
@@ -25,4 +26,6 @@ def get_rankings():
 
     rankings.sort(key=lambda x: x['game_time'], reverse=True)  # Sort rankings by game_time (descending)
     return rankings
-
+###########################
+###########phase2##########
+##########################

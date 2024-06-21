@@ -1,5 +1,6 @@
-# login.py
-
+#########################
+#########phase2##########
+#########################
 import json
 
 logged_in_user = None  # 초기에 로그인 사용자를 None으로 설정
@@ -29,3 +30,6 @@ def save_users(users):
     with open("users.json", "w") as file:
         json.dump(users, file)
 
+#########################
+#########phase2##########
+#########################

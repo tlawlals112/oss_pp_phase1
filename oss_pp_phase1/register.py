@@ -1,5 +1,6 @@
-# register.py
-
+#########################
+#########phase2##########
+#########################
 import json
 
 def register_user(username, password):
@@ -23,3 +24,6 @@ def save_users(users):
     with open("users.json", "w") as file:
         json.dump(users, file)
 
+#########################
+#########phase2##########
+#########################

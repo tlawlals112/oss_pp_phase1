@@ -1,3 +1,6 @@
+####################
+######phase2########
+####################
 import pygame
 import sys
 import register
@@ -101,3 +104,6 @@ def show_ranking(screen, font, screen_width):
 if __name__ == "__main__":
     main_menu()
 
+####################
+######phase2########
+####################
