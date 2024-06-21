@@ -2,9 +2,8 @@ import pygame
 import sys
 import register
 import login
-from game import run_game  # Import the run_game function from game.py
-import rank  # Import the rank module for managing rankings
-import time
+import rank  # 랭킹 모듈을 임포트합니다.
+import game  # 게임 모듈을 임포트합니다.
 
 def main_menu():
     pygame.init()
@@ -20,7 +19,7 @@ def main_menu():
     font = pygame.font.Font(None, 40)
 
     while True:
-        screen.fill((0, 0, 0))  # Fill the screen with black
+        screen.fill((0, 0, 0))  # 화면을 검은색으로 채웁니다.
 
         title = font.render("TOM&JERRY", True, (255, 255, 255))
         title_rect = title.get_rect(center=(screen_width // 2, 100))
@@ -55,7 +54,7 @@ def main_menu():
                     if not login.is_logged_in():
                         print("로그인이 필요합니다.")
                     else:
-                        run_game()  # Start the game from game.py
+                        game.main()  # 게임 시작
 
                 elif login_rect.collidepoint(mouse_pos):
                     username = input("사용자 이름: ")
@@ -70,30 +69,26 @@ def main_menu():
                         print("회원가입 성공!")
 
                 elif rank_rect.collidepoint(mouse_pos):
-                    show_ranking(screen, font)
-
-                elif exit_rect.collidepoint(mouse_pos):
-                    pygame.quit()
-                    sys.exit()
+                    show_ranking(screen, font, screen_width)  # 랭킹 표시
 
         clock.tick(FPS)
 
-def show_ranking(screen, font):
+def show_ranking(screen, font, screen_width):
     rankings = rank.get_rankings()
 
-    screen.fill((0, 0, 0))  # Fill the screen with black
+    screen.fill((0, 0, 0))  # 화면을 검은색으로 채웁니다.
 
     title_text = font.render("Rankings", True, (255, 255, 255))
-    screen.blit(title_text, ((480 - title_text.get_width()) // 2, 50))
+    screen.blit(title_text, ((screen_width - title_text.get_width()) // 2, 50))
 
     y_offset = 150
-    for idx, ranking in enumerate(rankings[:5]):  # Display top 5 rankings
+    for idx, ranking in enumerate(rankings[:5]):  # 상위 5개 랭킹 표시
         rank_text = font.render(f"{idx + 1}. {ranking['username']}: {ranking['game_time']} sec", True, (255, 255, 255))
-        screen.blit(rank_text, ((480 - rank_text.get_width()) // 2, y_offset))
+        screen.blit(rank_text, ((screen_width - rank_text.get_width()) // 2, y_offset))
         y_offset += 50
 
     return_to_menu_text = font.render("Press any key to return to menu.", True, (255, 255, 255))
-    screen.blit(return_to_menu_text, ((480 - return_to_menu_text.get_width()) // 2, 500))
+    screen.blit(return_to_menu_text, ((screen_width - return_to_menu_text.get_width()) // 2, 500))
 
     pygame.display.flip()
 
